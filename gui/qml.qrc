@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>iLaundry.qml</file>
+        <file>qmldir</file>
+        <file>FrontendDashboard.qml</file>
+        <file>IBackend.h</file>
+        <file>ItemHalo.qml</file>
+        <file>IconLock.qml</file>
+        <file>IconPlay.qml</file>
+        <file>IconPause.qml</file>
+    </qresource>
+</RCC>
