@@ -2,11 +2,6 @@
 #include "wlog.h"
 #include <fstream>
 
-CRpiGpioDriver::CRpiGpioDriver()
-{
-
-}
-
 void CRpiGpioDriver::set_interface(void *p_interface, const char *p_class)
 {
      wError("No interfaces for this module: %s\n", p_class);

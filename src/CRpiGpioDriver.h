@@ -5,8 +5,8 @@
 class CRpiGpioDriver : public IGpioDriver
 {
 public:
-    CRpiGpioDriver();
-    ~CRpiGpioDriver() override = default;
+    CRpiGpioDriver() = default;
+    ~CRpiGpioDriver() = default;
 
     /**
      * @brief Inherited from IGpioDriver

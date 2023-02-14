@@ -12,6 +12,5 @@ public:
 
     virtual bool init_gpio(int p_pin_number, int p_direction) = 0;
     virtual bool set_value(int p_pin_number, int p_value) const = 0;
-    virtual bool clear_pin(int p_pin_number) const = 0;
     virtual bool deinit_gpio(int p_pin_number) const = 0;
 };

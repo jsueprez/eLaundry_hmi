@@ -60,6 +60,7 @@ int main(int argc, char **argv)
     backendWelcome.set_interface(&novaCore, "INovaCore");
 
     novaCore.set_interface(&appWindow, "IQtObject");
+    novaCore.set_interface(&gpioDriver, "IGpioDriver");
     novaCore.set_interface(&backendDashboard, "BackendDashboard");
 
     engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);
