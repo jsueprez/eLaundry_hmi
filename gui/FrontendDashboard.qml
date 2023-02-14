@@ -6,11 +6,10 @@ import "."
 
 Item {
     id: frontendDashboard
-    height: 272
-    width: 230
+    height: 480
+    width: 800
 
-    property string power: "0.0"
-    property string userAmperes: "6"
+    //property string power: "0.0"
 
     onVisibleChanged: {
         backendDashboard.set_frontend(this)
@@ -19,26 +18,60 @@ Item {
         background.opacity = 1.0
     }
 
-    /* CONTAINER
-     * This item is built based on layout.
-     *  1st layout is the header, where connection icons are placed.
-     *  2nd Layout is the body, where the halo item is placed
-     *  3rd Layout is the footer, where the camera icon is placed
-     */
     Rectangle {
-
         id: background
-        property alias backgroundCenter : background.horizontalCenter
-
         anchors.fill: parent
-        color: "black"
 
-        ItemHalo{
-            z: 1
-            width: 224
-            height: 224
-            anchors.horizontalCenter: parent.horizontalCenter
+        Image {
+            width: 150
+            height: 33
+            anchors.left: parent.left
+            anchors.top: parent.top
+            source: "images/novaLogoTxt.png"
+            anchors.leftMargin: 20
+            anchors.topMargin: 20
+            fillMode: Image.PreserveAspectFit
+        }
+
+        Rectangle {
+            id: backgroundChoose
+            x: 44
+            y: 140
+            width: 200
+            height: 200
+
+            Text {
+                id: chooseMachine
+                text: "Please select an"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                font.pixelSize: 20
+                anchors.leftMargin: 10
+                textFormat: Text.RichText
+            }
+
+            Text {
+                id: chooseMachine_dos
+                text: "available machine..."
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: chooseMachine.left
+                anchors.top: chooseMachine.bottom
+                font.pixelSize: 20
+                anchors.topMargin: 0
+                textFormat: Text.RichText
+                anchors.leftMargin: 0
+            }
+        }
+
+        Rectangle {
+            id: pathViewBackground
+            width: 451
+            height: 354
+            color: "#8e8b93"
+            radius: 20
             anchors.verticalCenter: parent.verticalCenter
+            anchors.left: backgroundChoose.right
+            anchors.leftMargin: 40
         }
     }
 }

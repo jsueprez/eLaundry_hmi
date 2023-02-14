@@ -5,7 +5,7 @@ if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)   
 endif(COMMAND cmake_policy)
 
-project(iLaundry_hmi VERSION 0.1 LANGUAGES CXX)
+project(eLaundry_hmi VERSION 0.1 LANGUAGES CXX)
 
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)

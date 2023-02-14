@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IBackend.h"
 #include "INovaCore.h"
 #include "IQtObject.h"
 
@@ -14,13 +15,12 @@ public:
     void set_interface(void *p_interface, const char *p_class) override final;
 
     /**
-    * @brief Inherited from IChargerCore
+    * @brief Inherited from INOvaCore
     */
     void set_screen_backlight(bool p_status) override final;
 
-
     /**
-    * @brief Inherited from IChargerCore
+    * @brief Inherited from INovaCore
     */
     void init() override final;
 
@@ -33,6 +33,11 @@ public:
      * @brief Inherited object from QObject
      */
     bool eventFilter(QObject *p_object, QEvent *p_event) override final;
+
+    /**
+     * @brief Inherited from INovaCore
+     */
+    void on_welcome_animation_end() override final;
 
 private:
 
@@ -57,6 +62,11 @@ private:
     IQtObject *m_window = nullptr;
 
     /**
+     * @brief Back-end objects pointers
+     */
+    IBackend *m_backendDashboard = nullptr;
+
+    /**
     * @brief Current elapsed time (timestamp in seconds)
     */
     double m_now = 0.0;
@@ -69,7 +79,7 @@ private:
     /**
     * @brief Backlight timeout (timestamp in seconds)
     */
-    double m_backlight_timeout = 120.0;
+    double m_backlight_timeout = 20.0;
 
     /**
      * @brief Last refresh timestamps (timestamp in seconds)

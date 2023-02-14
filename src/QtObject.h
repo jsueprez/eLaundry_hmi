@@ -44,3 +44,4 @@ public:
 private:
     QObject *m_item = nullptr;
 };
+

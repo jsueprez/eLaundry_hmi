@@ -7,7 +7,7 @@ Item{
         id : pauseIcon
         anchors.fill: parent
 
-        property color foregroundPauseColor : Wallbox.colorCONNECTED
+        property color foregroundPauseColor : ELaundry.colorCONNECTED
 
         onPaint: {
             // Get drawing context

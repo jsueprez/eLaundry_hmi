@@ -1,10 +1,13 @@
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <QtQml>
 
 #include "HMILog.h"
 
-//#include "IQtObject.h"
-//#include "BackendDashboard.h"
+#include <IQtObject.h>
+#include <BackendDashboard.h>
+#include <BackendWelcome.h>
+#include <NovaCore.h>
+#include <QtObject.h>
 
 void parse_arg(int argc, char **argv)
 {
@@ -30,25 +33,42 @@ void parse_arg(int argc, char **argv)
 
 
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     parse_arg(argc, argv);
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
 
-    /*QtObject appWindow;
+    /* Create back-end objects */
+    NovaCore novaCore;
+
+    QtObject appWindow;
     QtObject frontendDashboard;
+    QtObject frontendWelcome;
 
     BackendDashboard backendDashboard;
+    BackendWelcome backendWelcome;
 
+    /* Set dependencies */
     backendDashboard.set_interface(&frontendDashboard, "IQtObject");
+    backendDashboard.set_interface(&novaCore, "INovaCore");
 
-    engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);*/
+    backendWelcome.set_interface(&frontendWelcome, "IQtObject");
+    backendWelcome.set_interface(&novaCore, "INovaCore");
+
+    novaCore.set_interface(&appWindow, "IQtObject");
+    novaCore.set_interface(&backendDashboard, "BackendDashboard");
+
+    engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);
+    engine.rootContext()->setContextProperty("backendWelcome", &backendWelcome);
+
     /* Load main front-end file */
-    //engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
-    //appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
+    app.installEventFilter(&novaCore);
+
+    novaCore.init();
 
     return app.exec();
 }

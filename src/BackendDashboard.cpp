@@ -9,9 +9,9 @@ void BackendDashboard::set_interface(void *p_interface, const char *p_class)
     {
         m_frontend = reinterpret_cast<IQtObject*>(p_interface);
     }
-    else if (strcmp(p_class, "IChargerCore") == 0)
+    else if (strcmp(p_class, "INovaCore") == 0)
     {
-        //m_chargerCore = reinterpret_cast<IChargerCore*>(p_interface);
+        m_novaCore = reinterpret_cast<INovaCore*>(p_interface);
     }
     else
     {

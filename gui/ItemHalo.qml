@@ -1,13 +1,13 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.0
-//import QtGraphicalEffects 1.0
+import QtGraphicalEffects 1.0
 import "."
 
 Item {
     id: itemHalo
 
-    property var haloAngle : 0
-    property color currentColor : Wallbox.colorStateWB_CURRENT
+    property int haloAngle : 0
+    property color currentColor : ELaundry.colorStateWB_CURRENT
 
     onCurrentColorChanged: {
         innerHalo.requestPaint()
@@ -65,8 +65,8 @@ Item {
         height: 150
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        opened: appWindow.stateDashboard !== iLaundry.stateDashboard_LOCK
-        opacity: appWindow.stateDashboard !== iLaundry.stateDashboard_LOCK ? 0.0 : 1.0
+        opened: appWindow.stateDashboard !== ELaundry.stateDashboard_LOCK
+        opacity: appWindow.stateDashboard !== ELaundry.stateDashboard_LOCK ? 0.0 : 1.0
     }
 
     IconPlay{
@@ -84,7 +84,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         opacity: 0.0
-        visible: appWindow.stateDashboard === iLaundry.stateDashboard_PLAY
+        visible: appWindow.stateDashboard === ELaundry.stateDashboard_PLAY
 
         SequentialAnimation{
             id: playAnimation
@@ -115,7 +115,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         opacity: 0.0
-        visible: appWindow.stateDashboard === iLaundry.stateDashboard_PAUSE
+        visible: appWindow.stateDashboard === ELaundry.stateDashboard_PAUSE
 
         SequentialAnimation{
             id: pauseAnimation
@@ -138,17 +138,17 @@ Item {
         property bool visibility : false;
         anchors.centerIn:  parent
         anchors.verticalCenterOffset: 8
-        color: Wallbox.colorStateWB_CURRENT
+        color: ELaundry.colorStateWB_CURRENT
         font.capitalization: Font.AllUppercase
         wrapMode: Text.WordWrap
         opacity: parent.opacity
         text: frontendDashboard.userAmperes + " A"
 
-        visible: (appWindow.stateDashboard === iLaundry.stateDashboard_CURRENT || labelCurrent.visibility);
+        visible: (appWindow.stateDashboard === ELaundry.stateDashboard_CURRENT || labelCurrent.visibility);
 
         onTextChanged:
         {
-            if(appWindow.stateDashboard === iLaundry.stateDashboard_POWER)
+            if(appWindow.stateDashboard === ELaundry.stateDashboard_POWER)
             {
                 labelPower.visibility = false;
                 labelCurrent.visibility= true;
@@ -172,13 +172,13 @@ Item {
         property bool visibility : true;
         anchors.centerIn:  parent
         anchors.verticalCenterOffset: 8
-        color: iLaundry.colorCHARGING
+        color: ELaundry.colorCHARGING
         font.capitalization: Font.AllUppercase
         wrapMode: Text.WordWrap
         opacity: parent.opacity
         text: frontendDashboard.power + " kw"
 
-        visible: (appWindow.stateDashboard === iLaundry.stateDashboard_POWER && labelPower.visibility);
+        visible: (appWindow.stateDashboard === ELaundry.stateDashboard_POWER && labelPower.visibility);
     }
 
     ParallelAnimation {

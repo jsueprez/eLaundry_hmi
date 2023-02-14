@@ -1,13 +1,19 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>iLaundry.qml</file>
+        <file>eLaundry.qml</file>
         <file>qmldir</file>
         <file>FrontendDashboard.qml</file>
-        <file>IBackend.h</file>
         <file>ItemHalo.qml</file>
         <file>IconLock.qml</file>
         <file>IconPlay.qml</file>
         <file>IconPause.qml</file>
+        <file>FrontendControls.qml</file>
+        <file>ItemConnection.qml</file>
+        <file>IconEthernet.qml</file>
+        <file>FrontendWelcome.qml</file>
+        <file>FrontendWelcomeMessage.qml</file>
+        <file>images/novaLogo.png</file>
+        <file>images/novaLogoTxt.png</file>
     </qresource>
 </RCC>

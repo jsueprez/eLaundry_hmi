@@ -7,7 +7,7 @@ Item {
 
     signal closed
 
-    property color color: iLaundry.colorLOCKED
+    property color color: ELaundry.colorLOCKED
     property bool opened: false
 
     onColorChanged : canvas.requestPaint();

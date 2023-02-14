@@ -14,7 +14,7 @@ Item{
 
             //Draw a triangle
             context.beginPath();
-            context.fillStyle = Wallbox.colorCHARGING
+            context.fillStyle = ELaundry.colorCHARGING
             context.strokeStyle = "black"
             context.moveTo(width *.30 ,height * .15);
             context.lineTo(width *.30 ,height * .85);

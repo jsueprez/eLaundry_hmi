@@ -24,4 +24,9 @@ public:
     * @brief Initialize database conection, update thread, etc
     */
     virtual void init() = 0;
+
+    /**
+    * @brief
+    */
+    virtual void on_welcome_animation_end() = 0;
 };

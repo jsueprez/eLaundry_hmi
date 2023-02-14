@@ -7,12 +7,12 @@
 
 #include "INovaCore.h"
 
-class BackendDashboard : public IBackend
+class BackendWelcome : public IBackend
 {
     Q_OBJECT
 
 public:
-    BackendDashboard() = default;
+    BackendWelcome() = default;
 
     /**
      * @brief Inherited from IBackend
@@ -42,7 +42,7 @@ public:
     /**
      * @brief Inherited from IBackend
      */
-    void refresh() override final;
+    Q_INVOKABLE void refresh() override final;
 
     /**
      * @brief Inherited from IBackend
@@ -50,34 +50,18 @@ public:
     void on_start() override final;
 
     /**
-     * @brief Inherited from IBackend
+     * @brief
      */
-    Q_INVOKABLE void on_locked_end();
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_play_end() ;
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_pause_end() ;
+    Q_INVOKABLE void on_welcome_animation_end();
 
 private:
-
     /**
-     * @brief Format value to a 'presentable' number
+     * @brief Charger core pointer
      */
-    QString format(double p_value) const;
+    INovaCore *m_novaCore  = nullptr;
 
     /**
      * @brief Front-end pointer
      */
     IQtObject *m_frontend = nullptr;
-
-    /**
-     * @brief Charger core pointer
-     */
-    INovaCore *m_novaCore  = nullptr;
 };

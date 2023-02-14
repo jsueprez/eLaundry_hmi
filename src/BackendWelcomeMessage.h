@@ -5,14 +5,14 @@
 #include "IBackend.h"
 #include "IQtObject.h"
 
-#include "INovaCore.h"
+//#include "IChargerCore.h"
 
-class BackendDashboard : public IBackend
+class BackendWelcomeMessage : public IBackend
 {
     Q_OBJECT
 
 public:
-    BackendDashboard() = default;
+    BackendWelcomeMessage() = default;
 
     /**
      * @brief Inherited from IBackend
@@ -42,34 +42,23 @@ public:
     /**
      * @brief Inherited from IBackend
      */
-    void refresh() override final;
+    Q_INVOKABLE void refresh() override final;
+
+    /**
+     * @brief Inherited from IBackend
+     */
+    Q_INVOKABLE void on_welcome_message_end();
 
     /**
      * @brief Inherited from IBackend
      */
     void on_start() override final;
 
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_locked_end();
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_play_end() ;
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_pause_end() ;
-
 private:
-
     /**
-     * @brief Format value to a 'presentable' number
+     * @brief Charger core pointer
      */
-    QString format(double p_value) const;
+    //IChargerCore *m_chargerCore  = nullptr;
 
     /**
      * @brief Front-end pointer
@@ -77,7 +66,7 @@ private:
     IQtObject *m_frontend = nullptr;
 
     /**
-     * @brief Charger core pointer
+     * @brief Last iteration value for pers_image
      */
-    INovaCore *m_novaCore  = nullptr;
+    std::string m_logged_userName = "ELaundry";
 };

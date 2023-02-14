@@ -4,15 +4,16 @@
 
 #include "IBackend.h"
 #include "IQtObject.h"
+//#include "IWallbox.h"
 
-#include "INovaCore.h"
+//#include "IChargerCore.h"
 
-class BackendDashboard : public IBackend
+class BackendControls : public IBackend
 {
     Q_OBJECT
 
 public:
-    BackendDashboard() = default;
+    BackendControls() = default;
 
     /**
      * @brief Inherited from IBackend
@@ -49,27 +50,7 @@ public:
      */
     void on_start() override final;
 
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_locked_end();
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_play_end() ;
-
-    /**
-     * @brief Inherited from IBackend
-     */
-    Q_INVOKABLE void on_pause_end() ;
-
 private:
-
-    /**
-     * @brief Format value to a 'presentable' number
-     */
-    QString format(double p_value) const;
 
     /**
      * @brief Front-end pointer
@@ -79,5 +60,5 @@ private:
     /**
      * @brief Charger core pointer
      */
-    INovaCore *m_novaCore  = nullptr;
+    //IChargerCore *m_chargerCore  = nullptr;
 };

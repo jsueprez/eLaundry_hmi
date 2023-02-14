@@ -1,5 +1,7 @@
 #include "NovaCore.h"
 
+#include <fstream>
+
 #include <systemd/sd-daemon.h>
 
 #include <assert.h>
@@ -7,6 +9,7 @@
 #include <fcntl.h>
 #include <math.h>
 #include <unistd.h>
+#include <string.h>
 #include <thread>
 #include <QTimer>
 #include "HMILog.h"
@@ -24,6 +27,10 @@ void NovaCore::set_interface(void *p_interface, const char *p_class)
     if(strcmp(p_class, "IQtObject") == 0)
     {
         m_window = reinterpret_cast<IQtObject*>(p_interface);
+    }
+    else if (strcmp(p_class, "BackendDashboard") == 0)
+    {
+        m_backendDashboard = reinterpret_cast<IBackend*>(p_interface);
     }
     else
     {
@@ -87,9 +94,12 @@ bool NovaCore::eventFilter(QObject */*watched*/, QEvent *p_event)
 
     HMILog log(__func__);
 
+    log.info("touched");
+
     // if the last user activity was 2min ago (i.e. screen is off), turn it on
     if(m_now - m_last_user_interaction > m_backlight_timeout)
     {
+        m_window->set_property("stateUI", static_cast<int>(UIState::Welcome_Message));
         reset_user_interaction();
         return true;
     }
@@ -127,26 +137,33 @@ void NovaCore::set_screen_backlight(bool p_status)
     /* Prevent unnecessary writings */
     if (m_backlight == p_status) return;
 #ifndef __x86_64__
-    const int fd = ::open("/sys/class/backlight/rpi_backlight/brightness", O_WRONLY);
 
-    if (fd == -1)
+    std::ofstream out("/sys/class/backlight/rpi_backlight/brightness",std::ios_base::out);
+
+    if(!out)
     {
         log.error("Failed to open gpio value for writing!");
         return;
     }
 
-    if (write(fd, p_status == SCREEN_ON ? "100" : "0", 1) == 1)
-    {
-        m_backlight = p_status;
-        log.info("Backlight turned", p_status == SCREEN_ON ? "on" : "off");
-    }
-    else
-    {
-        log.error("Failure in backlight!");
-    }
+    // goto to position 0
+    out.seekp(0);
 
-    ::close(fd);
+    out << (p_status == SCREEN_ON ? "100" : "0") << "\n";
+    m_backlight = p_status;
+
+    log.info("Backlight turned", p_status == SCREEN_ON ? "on" : "off");
+
+    out.close();
+
 #else
     m_backlight = p_status;
 #endif
+}
+
+void NovaCore::on_welcome_animation_end()
+{
+    HMILog log(__func__);
+    m_window->set_property("stateUI", static_cast<int>(UIState::Dashboard));
+    m_backendDashboard->refresh();
 }
