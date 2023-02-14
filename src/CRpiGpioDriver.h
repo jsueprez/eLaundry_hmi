@@ -6,6 +6,7 @@ class CRpiGpioDriver : public IGpioDriver
 {
 public:
     CRpiGpioDriver();
+    ~CRpiGpioDriver() override = default;
 
     /**
      * @brief Inherited from IGpioDriver
@@ -27,11 +28,12 @@ public:
      */
     bool deinit_gpio(int p_pin_number) const override final;
 
+    bool is_init(int p_pin_number) const ;
+
 private:
 
     enum Direction {Out, in};
 
-    bool is_init(int p_pin_number) const ;
     Direction get_direction(int p_number) const;
     void export_gpio(int p_pin_number) const;
     void set_direction(int p_pin_number, Direction p_direction) const;

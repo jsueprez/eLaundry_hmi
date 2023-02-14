@@ -2,6 +2,11 @@
 #include "wlog.h"
 #include <fstream>
 
+CRpiGpioDriver::CRpiGpioDriver()
+{
+
+}
+
 void CRpiGpioDriver::set_interface(void *p_interface, const char *p_class)
 {
      wError("No interfaces for this module: %s\n", p_class);
@@ -42,6 +47,11 @@ bool CRpiGpioDriver::set_value(int p_pin_number, int p_value) const
 
     out.close();
 
+    return 0;
+}
+
+bool CRpiGpioDriver::deinit_gpio(int p_pin_number) const
+{
     return 0;
 }
 

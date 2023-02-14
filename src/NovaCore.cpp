@@ -28,6 +28,10 @@ void NovaCore::set_interface(void *p_interface, const char *p_class)
     {
         m_window = reinterpret_cast<IQtObject*>(p_interface);
     }
+    else if (strcmp(p_class, "IGpioDriver") == 0)
+    {
+        m_gpioDriver = reinterpret_cast<IGpioDriver*>(p_interface);
+    }
     else if (strcmp(p_class, "BackendDashboard") == 0)
     {
         m_backendDashboard = reinterpret_cast<IBackend*>(p_interface);

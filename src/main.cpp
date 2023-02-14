@@ -4,6 +4,8 @@
 #include "HMILog.h"
 
 #include <IQtObject.h>
+#include <IGpioDriver.h>
+#include <CRpiGpioDriver.h>
 #include <BackendDashboard.h>
 #include <BackendWelcome.h>
 #include <NovaCore.h>
@@ -41,6 +43,7 @@ int main(int argc, char **argv)
 
     /* Create back-end objects */
     NovaCore novaCore;
+    CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;
     QtObject frontendDashboard;
