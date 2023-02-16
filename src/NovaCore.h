@@ -40,8 +40,8 @@ public:
      */
     void on_welcome_animation_end() override final;
 
-    void enable_machine();
-    void disable_machine();
+    void enable_novaLocker();
+    void disable_novaLocker();
 
 private:
 
@@ -96,6 +96,11 @@ private:
     * @brief Backlight on/off status
     */
     bool m_backlight = false;
+
+    /**
+    * @brief status of machine
+    */
+    bool m_novaLocker = false;
 
     /**
      * @brief Power on time, used to measure ellapsed time
