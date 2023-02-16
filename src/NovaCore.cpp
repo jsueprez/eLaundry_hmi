@@ -95,19 +95,19 @@ void NovaCore::refresh_main()
 
 bool NovaCore::eventFilter(QObject */*watched*/, QEvent *p_event)
 {
-    if((p_event->type() != QEvent::MouseButtonPress) && (p_event->type() != QEvent::KeyRelease))
+
+    if((p_event->type() != QEvent::TouchBegin) && (p_event->type() != QEvent::TouchEnd))
     {
         return false;
     }
 
     HMILog log(__func__);
 
-    log.info("touched");
-
     // if the last user activity was 2min ago (i.e. screen is off), turn it on
     if(m_now - m_last_user_interaction > m_backlight_timeout)
     {
-        m_window->set_property("stateUI", static_cast<int>(UIState::Welcome_Message));
+        // TODO: Depending on the behavior expected I should set the state to a relevant state, now it just stay in the same state
+        //m_window->set_property("stateUI", static_cast<int>(UIState::Welcome_Message));
         reset_user_interaction();
         return true;
     }
@@ -123,6 +123,7 @@ void NovaCore::reset_user_interaction()
 
     m_last_user_interaction = m_now;
     set_screen_backlight(SCREEN_ON);
+    enable_novaLocker();
 
     log.debug("Action", m_last_user_interaction);
     log.debug("   Now", m_now);
@@ -136,23 +137,33 @@ void NovaCore::refresh_2000ms_backlight()
         return;
 
     set_screen_backlight(SCREEN_OFF);
-    enable_machine();
+    disable_novaLocker();
 }
 
-void NovaCore::enable_machine()
+void NovaCore::enable_novaLocker()
 {
+    // prevent unnecesarry writes
+    if(m_novaLocker == true) return;
+
     m_gpioDriver->set_value(17,1);
     m_gpioDriver->set_value(27,1);
     m_gpioDriver->set_value(22,1);
     m_gpioDriver->set_value(23,1);
+
+    m_novaLocker = true;
 }
 
-void NovaCore::disable_machine()
+void NovaCore::disable_novaLocker()
 {
+    // prevent unnecesarry writes
+    if(m_novaLocker == false) return;
+
     m_gpioDriver->set_value(17,0);
     m_gpioDriver->set_value(27,0);
     m_gpioDriver->set_value(22,0);
     m_gpioDriver->set_value(23,0);
+
+    m_novaLocker = false;
 }
 
 void NovaCore::set_screen_backlight(bool p_status)
