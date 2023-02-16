@@ -4,6 +4,8 @@
 #include "HMILog.h"
 
 #include <IQtObject.h>
+#include <IGpioDriver.h>
+#include <CRpiGpioDriver.h>
 #include <BackendDashboard.h>
 #include <BackendWelcome.h>
 #include <NovaCore.h>
@@ -41,6 +43,7 @@ int main(int argc, char **argv)
 
     /* Create back-end objects */
     NovaCore novaCore;
+    CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;
     QtObject frontendDashboard;
@@ -57,6 +60,7 @@ int main(int argc, char **argv)
     backendWelcome.set_interface(&novaCore, "INovaCore");
 
     novaCore.set_interface(&appWindow, "IQtObject");
+    novaCore.set_interface(&gpioDriver, "IGpioDriver");
     novaCore.set_interface(&backendDashboard, "BackendDashboard");
 
     engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);
@@ -67,7 +71,6 @@ int main(int argc, char **argv)
     appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
     app.installEventFilter(&novaCore);
-
     novaCore.init();
 
     return app.exec();

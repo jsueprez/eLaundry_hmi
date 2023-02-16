@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IBackend.h"
+#include "IGpioDriver.h"
 #include "INovaCore.h"
 #include "IQtObject.h"
 
@@ -39,6 +40,9 @@ public:
      */
     void on_welcome_animation_end() override final;
 
+    void enable_machine();
+    void disable_machine();
+
 private:
 
     /**
@@ -60,6 +64,7 @@ private:
     * @brief Dependencies pointers
     */
     IQtObject *m_window = nullptr;
+    IGpioDriver * m_gpioDriver = nullptr;
 
     /**
      * @brief Back-end objects pointers

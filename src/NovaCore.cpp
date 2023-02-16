@@ -28,6 +28,10 @@ void NovaCore::set_interface(void *p_interface, const char *p_class)
     {
         m_window = reinterpret_cast<IQtObject*>(p_interface);
     }
+    else if (strcmp(p_class, "IGpioDriver") == 0)
+    {
+        m_gpioDriver = reinterpret_cast<IGpioDriver*>(p_interface);
+    }
     else if (strcmp(p_class, "BackendDashboard") == 0)
     {
         m_backendDashboard = reinterpret_cast<IBackend*>(p_interface);
@@ -46,6 +50,10 @@ void NovaCore::init()
 
     // set refresh function.
     m_refreshFunction = &NovaCore::refresh_main;
+    m_gpioDriver->init_gpio(17,0);
+    m_gpioDriver->init_gpio(27,0);
+    m_gpioDriver->init_gpio(22,0);
+    m_gpioDriver->init_gpio(23,0);
 
     /* VeryCoarseTimer has errors up to 500ms, but reduces CPU usage */
     startTimer(1000, Qt::VeryCoarseTimer);
@@ -128,6 +136,23 @@ void NovaCore::refresh_2000ms_backlight()
         return;
 
     set_screen_backlight(SCREEN_OFF);
+    enable_machine();
+}
+
+void NovaCore::enable_machine()
+{
+    m_gpioDriver->set_value(17,1);
+    m_gpioDriver->set_value(27,1);
+    m_gpioDriver->set_value(22,1);
+    m_gpioDriver->set_value(23,1);
+}
+
+void NovaCore::disable_machine()
+{
+    m_gpioDriver->set_value(17,0);
+    m_gpioDriver->set_value(27,0);
+    m_gpioDriver->set_value(22,0);
+    m_gpioDriver->set_value(23,0);
 }
 
 void NovaCore::set_screen_backlight(bool p_status)
@@ -138,7 +163,9 @@ void NovaCore::set_screen_backlight(bool p_status)
     if (m_backlight == p_status) return;
 #ifndef __x86_64__
 
-    std::ofstream out("/sys/class/backlight/rpi_backlight/brightness",std::ios_base::out);
+    std::string path{"/sys/class/backlight/rpi_backlight/brightness"};
+
+    std::ofstream out(path,std::ios_base::out);
 
     if(!out)
     {
