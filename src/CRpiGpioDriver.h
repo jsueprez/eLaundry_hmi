@@ -34,9 +34,10 @@ private:
 
     enum Direction {Out, in};
 
-    Direction get_direction(int p_number) const;
-    void export_gpio(int p_pin_number) const;
-    void set_direction(int p_pin_number, Direction p_direction) const;
+    bool is_exported(int p_number) const;
+    bool export_gpio(int p_pin_number) const;
+    bool unexport_gpio(int p_number) const;
+    bool set_direction(int p_pin_number, Direction p_direction) const;
 
 };
 

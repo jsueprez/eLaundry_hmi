@@ -71,7 +71,6 @@ int main(int argc, char **argv)
     appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
     app.installEventFilter(&novaCore);
-
     novaCore.init();
 
     return app.exec();

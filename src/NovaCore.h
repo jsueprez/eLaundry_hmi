@@ -40,6 +40,9 @@ public:
      */
     void on_welcome_animation_end() override final;
 
+    void enable_machine();
+    void disable_machine();
+
 private:
 
     /**
