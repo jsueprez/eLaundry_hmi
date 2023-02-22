@@ -9,6 +9,7 @@
 #include <BackendDashboard.h>
 #include <BackendWelcome.h>
 #include <NovaCore.h>
+#include <NovaDb.h>
 #include <QtObject.h>
 
 void parse_arg(int argc, char **argv)
@@ -43,6 +44,8 @@ int main(int argc, char **argv)
 
     /* Create back-end objects */
     NovaCore novaCore;
+
+    NovaDb novaDB ("db.json");
     CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;

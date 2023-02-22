@@ -1,14 +1,15 @@
 #set(OE_QMAKE_PATH_EXTERNAL_HOST_BINS /usr/bin/qt5)
 
 find_package(Qt5 COMPONENTS Core Network Concurrent Qml Quick QuickControls2 REQUIRED)
+find_package(JsonCpp REQUIRED)
 
-include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS} ${JSONCPP_INCLUDE_DIR}/${JSONCPP_INCLUDE_PREFIX})
 add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${${Qt5Quick_DEFINITIONS}})
 
 set(SYSTEMD_UNIT_DIR "/lib/systemd/system/")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -30,9 +31,9 @@ qt5_add_resources(QT_RESOURCES ../gui/qml.qrc)
 add_executable(eLaundry_hmi ${sources} ${qm_files} ${QT_RESOURCES})
 
 IF (${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm")
-    target_link_libraries(eLaundry_hmi Qt5::Core Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick Qt5::QuickControls2  -lpthread)
+    target_link_libraries(eLaundry_hmi Qt5::Core Qt5::Widgets Qt5::Concurrent Qt5::Qml Qt5::Quick Qt5::QuickControls2 ${JSONCPP_LIBRARY} -lpthread)
 ELSE ()
-    target_link_libraries(eLaundry_hmi Qt5::Core Qt5::Concurrent Qt5::Qml Qt5::Quick Qt5::QuickControls2 -lcrypt -lrt -lpthread -lncurses)
+    target_link_libraries(eLaundry_hmi Qt5::Core Qt5::Concurrent Qt5::Qml Qt5::Quick Qt5::QuickControls2 ${JSONCPP_LIBRARY} -lcrypt -lrt -lpthread -lncurses)
 ENDIF()
 
 install(TARGETS eLaundry_hmi
