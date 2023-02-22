@@ -4,15 +4,14 @@
 #include <iostream>
 #include <string>
 
-NovaDb::NovaDb(const std::string &p_filename)
-    : m_filename{p_filename},
-      m_ifs{m_filename, std::ios_base::in},
-      m_novaLockers{},
-      m_total_novaLockers{0}
+void NovaDB::init_db()
 {
+    const std::string filename = "db.json";
+    m_ifs.open(filename, std::ios_base::in);
+
     if(!m_ifs.is_open())
     {
-        throw std::runtime_error{"Cannot open the json file: " + m_filename};
+        throw std::runtime_error{"Cannot open the json file: " + filename};
     }
 
     if ( this->read() ) {
@@ -22,23 +21,23 @@ NovaDb::NovaDb(const std::string &p_filename)
     }
 }
 
-int NovaDb::get_total_novaLocker() const
+int NovaDB::get_total_novaLocker() const
 {
     return m_total_novaLockers;
 }
 
-NovaLocker NovaDb::get_novaLocker_info(int p_id) const
+NovaLocker NovaDB::get_novaLocker_info(int p_id) const
 {
     return m_novaLockers[p_id - 1];
 }
 
-std::vector<NovaLocker> NovaDb::get_all_novaLockers() const
+std::vector<NovaLocker> NovaDB::get_all_novaLockers() const
 {
     return m_novaLockers;
 }
 
 
-int NovaDb::read()
+int NovaDB::read()
 {
     // The stream should be open by now!
     assert(this->m_ifs.is_open());
