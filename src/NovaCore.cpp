@@ -36,6 +36,10 @@ void NovaCore::set_interface(void *p_interface, const char *p_class)
     {
         m_backendDashboard = reinterpret_cast<IBackend*>(p_interface);
     }
+    else if (strcmp(p_class, "INovaDB") == 0)
+    {
+        m_novaDB = reinterpret_cast<INovaDB*>(p_interface);
+    }
     else
     {
         assert(0);

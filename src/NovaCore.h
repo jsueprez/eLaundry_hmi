@@ -3,6 +3,7 @@
 #include "IBackend.h"
 #include "IGpioDriver.h"
 #include "INovaCore.h"
+#include "INovaDb.h"
 #include "IQtObject.h"
 
 class NovaCore : public INovaCore
@@ -65,6 +66,7 @@ private:
     */
     IQtObject *m_window = nullptr;
     IGpioDriver * m_gpioDriver = nullptr;
+    INovaDB * m_novaDB = nullptr;
 
     /**
      * @brief Back-end objects pointers
