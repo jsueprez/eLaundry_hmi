@@ -27,6 +27,16 @@ int NovaDb::get_total_novaLocker() const
     return m_total_novaLockers;
 }
 
+NovaLocker NovaDb::get_novaLocker_info(int p_id) const
+{
+    return m_novaLockers[p_id - 1];
+}
+
+std::vector<NovaLocker> NovaDb::get_all_novaLockers() const
+{
+    return m_novaLockers;
+}
+
 
 int NovaDb::read()
 {

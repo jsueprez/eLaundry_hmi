@@ -25,6 +25,7 @@ public:
 
     int get_total_novaLocker() const ;
     NovaLocker get_novaLocker_info(int p_id) const;
+    std::vector<NovaLocker> get_all_novaLockers() const;
 
 private:
     std::string m_filename;
