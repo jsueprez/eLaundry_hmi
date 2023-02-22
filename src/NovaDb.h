@@ -30,9 +30,7 @@ private:
     std::string m_filename;
     std::ifstream m_ifs;
     std::vector<NovaLocker> m_novaLockers;
+    int m_total_novaLockers;
 
     int read();
-
-
-
 };

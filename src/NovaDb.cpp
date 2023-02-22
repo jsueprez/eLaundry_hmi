@@ -7,7 +7,8 @@
 NovaDb::NovaDb(const std::string &p_filename)
     : m_filename{p_filename},
       m_ifs{m_filename, std::ios_base::in},
-      m_novaLockers{}
+      m_novaLockers{},
+      m_total_novaLockers{0}
 {
     if(!m_ifs.is_open())
     {
@@ -21,6 +22,12 @@ NovaDb::NovaDb(const std::string &p_filename)
     }
 }
 
+int NovaDb::get_total_novaLocker() const
+{
+    return m_total_novaLockers;
+}
+
+
 int NovaDb::read()
 {
     // The stream should be open by now!
@@ -31,9 +38,9 @@ int NovaDb::read()
 
     const Json::Value novaLockers = root["NovaLockers"];
 
-    auto total_novaLockers = novaLockers.size();
+    m_total_novaLockers = novaLockers.size();
 
-    for(auto index {0}; index < static_cast<int>(total_novaLockers); index++)
+    for(auto index {0}; index < static_cast<int>(m_total_novaLockers); index++)
     {
         NovaLocker tmp {};
         std::string st;
