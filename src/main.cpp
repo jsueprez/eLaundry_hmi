@@ -40,9 +40,10 @@ int main(int argc, char **argv)
     QQmlApplicationEngine engine;
 
     /* Create back-end objects */
+    NovaDB novaDB;
     NovaCore novaCore;
 
-    NovaDB novaDB;
+
     CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;
@@ -72,6 +73,7 @@ int main(int argc, char **argv)
     appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
     app.installEventFilter(&novaCore);
+    novaDB.init_db();
     novaCore.init();
 
     return app.exec();

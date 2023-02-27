@@ -102,7 +102,7 @@ private:
     /**
     * @brief status of machine
     */
-    bool m_novaLocker = false;
+    std::vector<NovaLocker> m_novaLockers;
 
     /**
      * @brief Power on time, used to measure ellapsed time
