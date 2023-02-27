@@ -1,38 +1,30 @@
 #pragma once
 
+#include <INovaDb.h>
+#include <nova_db_types.h>
+
 #include <string>
 #include <vector>
 #include <fstream>
 #include <json/json.h>
 
-struct NovaLocker
-{
-    int id {};
-    std::string type {};
-    bool locked {};
-    int pinNumber {};
-    // ...
-};
-
-class NovaDb
+class NovaDB : public INovaDB
 {
 public:
-    NovaDb(const std::string &p_filesystem);
-    ~NovaDb()
-    {
-        if(m_ifs.is_open()) { m_ifs.close();}
-    }
+    NovaDB() = default;
+    ~NovaDB() override = default;
 
-    int get_total_novaLocker() const ;
-    NovaLocker get_novaLocker_info(int p_id) const;
+    void init_db() override final;
+
+    int get_total_novaLocker() const override final;
+    NovaLocker get_novaLocker_info(int p_id) const override final;
+    std::vector<NovaLocker> get_all_novaLockers() const override final;
 
 private:
     std::string m_filename;
     std::ifstream m_ifs;
     std::vector<NovaLocker> m_novaLockers;
+    int m_total_novaLockers;
 
     int read();
-
-
-
 };

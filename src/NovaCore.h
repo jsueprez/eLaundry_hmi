@@ -3,6 +3,7 @@
 #include "IBackend.h"
 #include "IGpioDriver.h"
 #include "INovaCore.h"
+#include "INovaDb.h"
 #include "IQtObject.h"
 
 class NovaCore : public INovaCore
@@ -65,6 +66,7 @@ private:
     */
     IQtObject *m_window = nullptr;
     IGpioDriver * m_gpioDriver = nullptr;
+    INovaDB * m_novaDB = nullptr;
 
     /**
      * @brief Back-end objects pointers
@@ -100,7 +102,7 @@ private:
     /**
     * @brief status of machine
     */
-    bool m_novaLocker = false;
+    std::vector<NovaLocker> m_novaLockers;
 
     /**
      * @brief Power on time, used to measure ellapsed time

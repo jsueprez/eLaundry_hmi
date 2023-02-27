@@ -4,14 +4,14 @@
 #include <iostream>
 #include <string>
 
-NovaDb::NovaDb(const std::string &p_filename)
-    : m_filename{p_filename},
-      m_ifs{m_filename, std::ios_base::in},
-      m_novaLockers{}
+void NovaDB::init_db()
 {
+    const std::string filename = "db.json";
+    m_ifs.open(filename, std::ios_base::in);
+
     if(!m_ifs.is_open())
     {
-        throw std::runtime_error{"Cannot open the json file: " + m_filename};
+        throw std::runtime_error{"Cannot open the json file: " + filename};
     }
 
     if ( this->read() ) {
@@ -21,7 +21,23 @@ NovaDb::NovaDb(const std::string &p_filename)
     }
 }
 
-int NovaDb::read()
+int NovaDB::get_total_novaLocker() const
+{
+    return m_total_novaLockers;
+}
+
+NovaLocker NovaDB::get_novaLocker_info(int p_id) const
+{
+    return m_novaLockers[p_id - 1];
+}
+
+std::vector<NovaLocker> NovaDB::get_all_novaLockers() const
+{
+    return m_novaLockers;
+}
+
+
+int NovaDB::read()
 {
     // The stream should be open by now!
     assert(this->m_ifs.is_open());
@@ -31,9 +47,9 @@ int NovaDb::read()
 
     const Json::Value novaLockers = root["NovaLockers"];
 
-    auto total_novaLockers = novaLockers.size();
+    m_total_novaLockers = novaLockers.size();
 
-    for(auto index {0}; index < static_cast<int>(total_novaLockers); index++)
+    for(auto index {0}; index < static_cast<int>(m_total_novaLockers); index++)
     {
         NovaLocker tmp {};
         std::string st;

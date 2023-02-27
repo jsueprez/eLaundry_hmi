@@ -4,7 +4,6 @@
 #include "HMILog.h"
 
 #include <IQtObject.h>
-#include <IGpioDriver.h>
 #include <CRpiGpioDriver.h>
 #include <BackendDashboard.h>
 #include <BackendWelcome.h>
@@ -34,8 +33,6 @@ void parse_arg(int argc, char **argv)
     }
 }
 
-
-
 int main(int argc, char **argv)
 {
     parse_arg(argc, argv);
@@ -43,9 +40,10 @@ int main(int argc, char **argv)
     QQmlApplicationEngine engine;
 
     /* Create back-end objects */
+    NovaDB novaDB;
     NovaCore novaCore;
 
-    NovaDb novaDB ("db.json");
+
     CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;
@@ -64,6 +62,7 @@ int main(int argc, char **argv)
 
     novaCore.set_interface(&appWindow, "IQtObject");
     novaCore.set_interface(&gpioDriver, "IGpioDriver");
+    novaCore.set_interface(&novaDB, "INovaDB");
     novaCore.set_interface(&backendDashboard, "BackendDashboard");
 
     engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);
@@ -74,6 +73,7 @@ int main(int argc, char **argv)
     appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
     app.installEventFilter(&novaCore);
+    novaDB.init_db();
     novaCore.init();
 
     return app.exec();

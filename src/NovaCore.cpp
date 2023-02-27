@@ -16,6 +16,8 @@
 
 #define SCREEN_ON   true
 #define SCREEN_OFF  false
+#define OUTPUT      0
+#define INPUT       1
 
 constexpr uint32_t hash(const char *p_str, int p_off = 0) noexcept
 {
@@ -36,6 +38,10 @@ void NovaCore::set_interface(void *p_interface, const char *p_class)
     {
         m_backendDashboard = reinterpret_cast<IBackend*>(p_interface);
     }
+    else if (strcmp(p_class, "INovaDB") == 0)
+    {
+        m_novaDB = reinterpret_cast<INovaDB*>(p_interface);
+    }
     else
     {
         assert(0);
@@ -50,10 +56,12 @@ void NovaCore::init()
 
     // set refresh function.
     m_refreshFunction = &NovaCore::refresh_main;
-    m_gpioDriver->init_gpio(17,0);
-    m_gpioDriver->init_gpio(27,0);
-    m_gpioDriver->init_gpio(22,0);
-    m_gpioDriver->init_gpio(23,0);
+
+    m_novaLockers = m_novaDB->get_all_novaLockers();
+
+    // initialize gpios
+    for(auto novalocker : m_novaLockers)
+        m_gpioDriver->init_gpio(novalocker.pinNumber,OUTPUT);
 
     /* VeryCoarseTimer has errors up to 500ms, but reduces CPU usage */
     startTimer(1000, Qt::VeryCoarseTimer);
@@ -143,27 +151,21 @@ void NovaCore::refresh_2000ms_backlight()
 void NovaCore::enable_novaLocker()
 {
     // prevent unnecesarry writes
-    if(m_novaLocker == true) return;
+    if(m_novaLockers[1].locked == true) return;
 
-    m_gpioDriver->set_value(17,1);
-    m_gpioDriver->set_value(27,1);
-    m_gpioDriver->set_value(22,1);
-    m_gpioDriver->set_value(23,1);
+    m_gpioDriver->set_value(m_novaLockers[1].pinNumber,1);
 
-    m_novaLocker = true;
+    m_novaLockers[1].locked = true;
 }
 
 void NovaCore::disable_novaLocker()
 {
     // prevent unnecesarry writes
-    if(m_novaLocker == false) return;
+    if(m_novaLockers[1].locked == false) return;
 
-    m_gpioDriver->set_value(17,0);
-    m_gpioDriver->set_value(27,0);
-    m_gpioDriver->set_value(22,0);
-    m_gpioDriver->set_value(23,0);
+    m_gpioDriver->set_value(m_novaLockers[1].pinNumber,0);
 
-    m_novaLocker = false;
+    m_novaLockers[1].locked = false;
 }
 
 void NovaCore::set_screen_backlight(bool p_status)
