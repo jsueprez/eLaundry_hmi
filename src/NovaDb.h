@@ -14,7 +14,6 @@ public:
     NovaDB() = default;
     ~NovaDB() override = default;
 
-    void set_interface(void *p_interface, const char *p_class) override final;
     void init_db() override final;
 
     int get_total_novaLocker() const override final;

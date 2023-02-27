@@ -12,11 +12,6 @@ public:
     /**
     * @brief Set interface pointers
     */
-    virtual void set_interface(void *p_interface, const char *p_class) = 0;
-
-    /**
-    * @brief Set interface pointers
-    */
     virtual void init_db() = 0;
 
     /**
