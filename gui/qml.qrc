@@ -15,5 +15,7 @@
         <file>FrontendWelcomeMessage.qml</file>
         <file>images/novaLogo.png</file>
         <file>images/novaLogoTxt.png</file>
+        <file>NovaLockerModel.qml</file>
+        <file>images/laundry.png</file>
     </qresource>
 </RCC>
