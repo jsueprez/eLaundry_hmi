@@ -8,6 +8,12 @@ Item {
     anchors.fill: parent
 
 
+    function updateLockStatus()
+    {
+        console.log("Send lock to :", pathView.currentItem.locked);
+        backendDashboard.update_lock_state(pathView.currentItem.novaLockerId, pathView.currentItem.locked)
+    }
+
     onVisibleChanged: {
         if (!visible) return
     }
@@ -21,21 +27,45 @@ Item {
     }
 
     Component  {
-        id : delegate
-        Column {
-            id: wrapper
+        id : delegateCard
+
+        Item {
+            id: itemCard
             opacity: PathView.isCurrentItem ? 1 : 0.5
+            width: 100
+            height: 150
+
+            property int novaLockerId: display.novaLockerId
+            property string locked: display.line2
+
             z: PathView.z
             scale: PathView.scale
             Image {
+                id: iconNovaLocker
                 anchors.horizontalCenter: nameText.horizontalCenter
                 width: 100; height: 100
-                source: icon
+                source: locked === "0" ? "images/laundry_not_available.png" : "images/laundry_available.png"
             }
             Text {
                 id: nameText
-                text: name
-                font.pointSize: 16
+                anchors.top: iconNovaLocker.bottom
+                anchors.topMargin: 5
+                text: novaLockerId
+                font.pointSize: 14
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (pathView.currentIndex === model.index)
+                    {
+                        updateLockStatus()
+                    }
+                    else
+                    {
+                        pathView.currentIndex = model.index
+                    }
+                }
             }
         }
     }
@@ -47,8 +77,8 @@ Item {
         preferredHighlightBegin: 0.5
         preferredHighlightEnd: 0.5
         interactive: true
-        model: NovaLockerModel {}
-        delegate: delegate
+        model: backendDashboard.model
+        delegate: delegateCard
 
         path: Path {
             startX: 60

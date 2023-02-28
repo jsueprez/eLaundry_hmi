@@ -1,18 +1,22 @@
 #pragma once
 
 #include <QObject>
+#include <QAbstractItemModel>
 
 #include "IBackend.h"
 #include "IQtObject.h"
 
 #include "INovaCore.h"
+#include "INovaDb.h"
 
 class BackendDashboard : public IBackend
 {
     Q_OBJECT
 
+    Q_PROPERTY(QAbstractItemModel* model MEMBER m_model CONSTANT)
+
 public:
-    BackendDashboard() = default;
+    BackendDashboard();
 
     /**
      * @brief Inherited from IBackend
@@ -64,6 +68,16 @@ public:
      */
     Q_INVOKABLE void on_pause_end() ;
 
+    /**
+     * @brief Login with userId and PIN
+     * @return +2 if user and pin are valid and user is admin
+     *         +1 if user and pin are valid and user is not admin
+     *         -1 if user is unknown
+     *         -2 if PIN is incorrect
+     */
+    Q_INVOKABLE void update_lock_state(QString p_novaLockerId, QString p_state);
+//    /void update_lock_state(const int p_novaLockerId, const int p_state);
+
 private:
 
     /**
@@ -77,7 +91,37 @@ private:
     IQtObject *m_frontend = nullptr;
 
     /**
-     * @brief Charger core pointer
+     * @brief Model for NovaLockers list
      */
-    INovaCore *m_novaCore  = nullptr;
+    QAbstractItemModel *m_model = nullptr;
+
+    /**
+     * @brief Nova core pointer
+     */
+    INovaCore *m_novaCore   = nullptr;
+
+    /**
+     * @brief Nova DB pointer
+     */
+    INovaDB *m_novaDB       = nullptr;
+
+    std::vector<NovaLocker> m_novaLockers;
+
+    /**
+     * @brief Apply modifications to model
+     */
+    void insert_novaLockers();
+    void remove_novaLockers();
+
+    /**
+     * @brief Find row by variable name inside model
+     * @return Return row number or -1, if variable does not exist
+     */
+    int find_row(int p_userId) const;
+
+    /**
+     * @brief Set data in model
+     */
+    void set_row_data(const NovaLocker &p_novaLocker, int p_row);
+
 };
