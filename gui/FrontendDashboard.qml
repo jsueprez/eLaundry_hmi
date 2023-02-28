@@ -8,12 +8,11 @@ Item {
     id: frontendDashboard
     anchors.fill:  parent
 
-    //property string power: "0.0"
-
     onVisibleChanged: {
-        backendDashboard.set_frontend(this)
-
         if (!visible) return
+
+        backendDashboard.set_frontend(this)
+        backendDashboard.on_show();
         background.opacity = 1.0
     }
 
@@ -65,7 +64,6 @@ Item {
             }
         }
 
-
         Rectangle{
             id: carrouselBackground
             width: 450 // magic numbers
@@ -79,11 +77,7 @@ Item {
                 visible: true
 
             }
-
         }
-
-
-
     }
 }
 
