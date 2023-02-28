@@ -63,6 +63,8 @@ void NovaCore::init()
     for(auto novalocker : m_novaLockers)
         m_gpioDriver->init_gpio(novalocker.pinNumber,OUTPUT);
 
+    m_backendDashboard->init();
+
     /* VeryCoarseTimer has errors up to 500ms, but reduces CPU usage */
     startTimer(1000, Qt::VeryCoarseTimer);
 

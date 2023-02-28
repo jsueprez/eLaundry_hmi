@@ -16,7 +16,9 @@
         <file>images/novaLogo.png</file>
         <file>images/novaLogoTxt.png</file>
         <file>NovaLockerModel.qml</file>
-        <file>images/laundry.png</file>
         <file>FrontendNovaLockersCarrousel.qml</file>
+        <file>images/laundry_defect.png</file>
+        <file>images/laundry_available.png</file>
+        <file>images/laundry_not_available.png</file>
     </qresource>
 </RCC>
