@@ -43,7 +43,6 @@ int main(int argc, char **argv)
     NovaDB novaDB;
     NovaCore novaCore;
 
-
     CRpiGpioDriver gpioDriver;
 
     QtObject appWindow;
@@ -56,6 +55,7 @@ int main(int argc, char **argv)
     /* Set dependencies */
     backendDashboard.set_interface(&frontendDashboard, "IQtObject");
     backendDashboard.set_interface(&novaCore, "INovaCore");
+    backendDashboard.set_interface(&novaDB, "INovaDB");
 
     backendWelcome.set_interface(&frontendWelcome, "IQtObject");
     backendWelcome.set_interface(&novaCore, "INovaCore");
@@ -73,6 +73,7 @@ int main(int argc, char **argv)
     appWindow.set_item(qobject_cast<QObject*>(engine.rootObjects().first()));
 
     app.installEventFilter(&novaCore);
+
     novaDB.init_db();
     novaCore.init();
 
