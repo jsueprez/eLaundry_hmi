@@ -5,7 +5,7 @@ import "."
 ApplicationWindow {
     id: appWindow
 
-    property int stateUI: ELaundry.stateUI_WELCOME_MESSAGE
+    property int stateUI: ELaundry.stateUI_DASHBOARD
     property int stateWB: ELaundry.stateWB_READY
     property int stateDashboard: ELaundry.stateDashboard_CURRENT
 
@@ -43,7 +43,9 @@ ApplicationWindow {
 
     Component.onCompleted: {
         /* First element to show */
-        frontendWelcome.visible = true
+        //frontendWelcome.visible = true
+
+        frontendDashboard.visible = true
     }
 
     onStateUIChanged: {
@@ -120,7 +122,6 @@ ApplicationWindow {
 
     }
 
-    /* This item is the main window where most of the state of the charger take place, it also show the current state of connections */
     FrontendDashboard {
         id: frontendDashboard
         visible: stateUI === ELaundry.stateUI_DASHBOARD
@@ -128,10 +129,9 @@ ApplicationWindow {
         z:  0
     }
 
-    /* This item is used for showing the WALLBOX animation when the charger is booting */
     FrontendWelcome {
         id: frontendWelcome
-        visible: stateUI === Wallbox.stateUI_WELCOME_MESSAGE
+        visible: stateUI === ELaundry.stateUI_WELCOME_MESSAGE
         objectName: "frontendWelcome"
         z: 1
     }

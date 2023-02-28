@@ -20,8 +20,9 @@ QtObject {
     readonly property color colorGREY: "#60726d"
     readonly property color colorGREY_DARK: "#444444"
     readonly property color colorRED: "#b8524d"
-    readonly property color colorWALLBOX: "#4dc1a1"
     readonly property color colorWHITE: "#ffffff"
+    readonly property color colorWHITE_SMOKE: "#f8f8f8"
+    readonly property color colorSHADOW: "#80777777"
 
     readonly property int connectionETH: 0
     readonly property int connectionWIFI: 1

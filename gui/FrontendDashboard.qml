@@ -6,8 +6,7 @@ import "."
 
 Item {
     id: frontendDashboard
-    height: 480
-    width: 800
+    anchors.fill:  parent
 
     //property string power: "0.0"
 
@@ -23,20 +22,23 @@ Item {
         anchors.fill: parent
 
         Image {
+            id: logo
             width: 150
             height: 33
             anchors.left: parent.left
             anchors.top: parent.top
-            source: "images/novaLogoTxt.png"
             anchors.leftMargin: 20
             anchors.topMargin: 20
+            source: "images/novaLogoTxt.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Rectangle {
             id: backgroundChoose
-            x: 44
-            y: 140
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: logo.bottom
+            anchors.topMargin: 100
             width: 200
             height: 200
 
@@ -63,16 +65,25 @@ Item {
             }
         }
 
-        Rectangle {
-            id: pathViewBackground
-            width: 451
-            height: 354
-            color: "#8e8b93"
-            radius: 20
-            anchors.verticalCenter: parent.verticalCenter
+
+        Rectangle{
+            id: carrouselBackground
+            width: 450 // magic numbers
+            height: 400 // magic numbers
             anchors.left: backgroundChoose.right
-            anchors.leftMargin: 40
+            anchors.leftMargin: 80
+            anchors.verticalCenter: parent.verticalCenter
+
+            FrontendNovaLockersCarrousel {
+                id: frontendNovaLockersCarrousel
+                visible: true
+
+            }
+
         }
+
+
+
     }
 }
 
