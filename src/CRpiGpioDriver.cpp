@@ -10,7 +10,10 @@ void CRpiGpioDriver::set_interface(void *p_interface, const char *p_class)
 
 bool CRpiGpioDriver::init_gpio(int p_pin_number, int p_direction)
 {
-    export_gpio(p_pin_number);
+    if(export_gpio(p_pin_number))
+    {
+        return 1;
+    }
 
     // find a better solution to wait until the gpio is indeed exported
     sleep(1);
@@ -22,7 +25,7 @@ bool CRpiGpioDriver::init_gpio(int p_pin_number, int p_direction)
         wError("Error trying set direction of Gpio\n")
     }
 
-    return 1;
+    return 0;
 
 }
 
