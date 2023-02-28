@@ -13,4 +13,8 @@ ListModel {
         name: "3"
         icon: "images/laundry.png"
     }
+    ListElement {
+        name: "4"
+        icon: "images/laundry.png"
+    }
 }

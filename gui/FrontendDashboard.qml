@@ -6,8 +6,7 @@ import "."
 
 Item {
     id: frontendDashboard
-    height: 480
-    width: 800
+    anchors.fill:  parent
 
     //property string power: "0.0"
 
@@ -23,20 +22,23 @@ Item {
         anchors.fill: parent
 
         Image {
+            id: logo
             width: 150
             height: 33
             anchors.left: parent.left
             anchors.top: parent.top
-            source: "images/novaLogoTxt.png"
             anchors.leftMargin: 20
             anchors.topMargin: 20
+            source: "images/novaLogoTxt.png"
             fillMode: Image.PreserveAspectFit
         }
 
         Rectangle {
             id: backgroundChoose
-            x: 44
-            y: 140
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: logo.bottom
+            anchors.topMargin: 100
             width: 200
             height: 200
 
@@ -63,52 +65,25 @@ Item {
             }
         }
 
+
         Rectangle{
-            id: pathViewBackground
-            width: 400 // magic numbers
+            id: carrouselBackground
+            width: 450 // magic numbers
             height: 400 // magic numbers
             anchors.left: backgroundChoose.right
-            anchors.leftMargin: 40
+            anchors.leftMargin: 80
             anchors.verticalCenter: parent.verticalCenter
-            color: "#8e8b93"
-            radius: 20
 
-            Component  {
-                id : delegate
-                Column {
-                    id: wrapper
-                    opacity: PathView.isCurrentItem ? 1 : 0.5
-                    Image {
-                        anchors.horizontalCenter: nameText.horizontalCenter
-                        width: 100; height: 100
-                        source: icon
-                    }
-                    Text {
-                        id: nameText
-                        text: name
-                        font.pointSize: 16
-                    }
-                }
+            FrontendNovaLockersCarrousel {
+                id: frontendNovaLockersCarrousel
+                visible: true
+
             }
 
-            PathView {
-                anchors.fill: parent
-                model: NovaLockerModel {}
-                delegate : delegate
-                focus : true
-
-                path: Path {
-                    startX: pathViewBackground.width / 2; startY: (pathViewBackground.height / 2) + 100 ;
-                    PathAttribute { name: "iconScale"; value: 1.0 }
-                    PathAttribute { name: "iconOpacity"; value: 1.0 }
-                    PathQuad { x: (pathViewBackground.width / 2 + 100) ; y: (pathViewBackground.height / 2); controlX: (pathViewBackground.width / 2 + 100); controlY: 75 }
-                    PathAttribute { name: "iconScale"; value: 0.3 }
-                    PathAttribute { name: "iconOpacity"; value: 0.5 }
-                    PathQuad { x: pathViewBackground.width / 2; y: (pathViewBackground.height / 2) + 100; controlX: -20; controlY: 75 }
-
-                }
-            }
         }
+
+
+
     }
 }
 
