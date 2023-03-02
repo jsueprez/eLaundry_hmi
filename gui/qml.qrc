@@ -20,5 +20,7 @@
         <file>images/laundry_defect.png</file>
         <file>images/laundry_available.png</file>
         <file>images/laundry_not_available.png</file>
+        <file>FrontendControlsUI.qml</file>
+        <file>IconBluetooth.qml</file>
     </qresource>
 </RCC>
