@@ -13,7 +13,6 @@ Item {
 
         backendDashboard.set_frontend(this)
         backendDashboard.on_show();
-        background.opacity = 1.0
     }
 
     FrontendNovaLockersCarrousel {

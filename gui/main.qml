@@ -134,7 +134,6 @@ ApplicationWindow {
         id: frontendDashboard
         visible: stateUI === ELaundry.stateUI_DASHBOARD
         objectName: "frontendDashboard"
-        z:  0
     }
 
     FrontendControlsUI {
@@ -146,7 +145,6 @@ ApplicationWindow {
         id: frontendWelcome
         visible: stateUI === ELaundry.stateUI_WELCOME_MESSAGE
         objectName: "frontendWelcome"
-        z: 1
     }
 
 }
