@@ -9,7 +9,7 @@ Item {
         id: iconEthernet
 
         anchors.fill: parent
-        visible: appWindow.connType === ELaundry.connectionETH
+        visible: true
     }
 
 //    IconWifi {

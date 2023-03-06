@@ -9,6 +9,14 @@ ApplicationWindow {
     property int stateWB: ELaundry.stateWB_READY
     property int stateDashboard: ELaundry.stateDashboard_CURRENT
 
+    // used for resizing and positioning UI controls
+    property int mainAreaX: 0
+    property int mainAreaW: width
+
+    // connection type and signal strength
+    property int connType: ELaundry.connectionNONE
+    property int connStrength: 4
+
     property string userName : "ELaundry"
 
     /* Workaround fix for the flattened screen issue */
@@ -126,14 +134,17 @@ ApplicationWindow {
         id: frontendDashboard
         visible: stateUI === ELaundry.stateUI_DASHBOARD
         objectName: "frontendDashboard"
-        z:  0
+    }
+
+    FrontendControlsUI {
+        id: frontendControlsUI
+        visible: true
     }
 
     FrontendWelcome {
         id: frontendWelcome
         visible: stateUI === ELaundry.stateUI_WELCOME_MESSAGE
         objectName: "frontendWelcome"
-        z: 1
     }
 
 }

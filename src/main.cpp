@@ -6,6 +6,7 @@
 #include <IQtObject.h>
 #include <CRpiGpioDriver.h>
 #include <BackendDashboard.h>
+#include <BackendControlsUI.h>
 #include <BackendWelcome.h>
 #include <NovaCore.h>
 #include <NovaDb.h>
@@ -47,15 +48,19 @@ int main(int argc, char **argv)
 
     QtObject appWindow;
     QtObject frontendDashboard;
+    QtObject frontendControlsUI;
     QtObject frontendWelcome;
 
     BackendDashboard backendDashboard;
+    BackendControlsUI backendControlsUI;
     BackendWelcome backendWelcome;
 
     /* Set dependencies */
     backendDashboard.set_interface(&frontendDashboard, "IQtObject");
     backendDashboard.set_interface(&novaCore, "INovaCore");
     backendDashboard.set_interface(&novaDB, "INovaDB");
+
+    backendControlsUI.set_interface(&frontendControlsUI, "IQtObject");
 
     backendWelcome.set_interface(&frontendWelcome, "IQtObject");
     backendWelcome.set_interface(&novaCore, "INovaCore");
@@ -66,6 +71,7 @@ int main(int argc, char **argv)
     novaCore.set_interface(&backendDashboard, "BackendDashboard");
 
     engine.rootContext()->setContextProperty("backendDashboard", &backendDashboard);
+    engine.rootContext()->setContextProperty("backendControlsUI", &backendControlsUI);
     engine.rootContext()->setContextProperty("backendWelcome", &backendWelcome);
 
     /* Load main front-end file */
